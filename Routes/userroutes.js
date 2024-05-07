@@ -12,7 +12,6 @@ router.get("/alluser",controller.alluser);
 
 router.patch("/update/:id",controller.updateUser);
 router.delete("/delete/:id",controller.delete);
-router.delete("/delete",controller.deleteall);
 
 
 module.exports=router;

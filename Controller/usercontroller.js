@@ -71,12 +71,6 @@ exports.signup = async (req, res) => {
      
 
 
-
-
-
-
-
-
     exports.delete = async (req,res)=>{
       try{
         const deleteuser = await User.findOneAndDelete({userid:req.params.id})
@@ -90,11 +84,3 @@ exports.signup = async (req, res) => {
       }
     }
 
-exports.deleteall = async(req,res)=>{
-    try{
-         await User.deleteMany({})
-        res.status(200).json({message:"Delete all record"})
-    }catch(err){
-        res.status(500).json({message:err.message})
-    }
-}
