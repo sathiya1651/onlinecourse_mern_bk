@@ -1,8 +1,32 @@
 const Course = require('../Model/coursemodel')
+const { body, sanitizeBody, validationResult } = require("express-validator");
+const path = require('path')
+const multer = require('multer');
 
 
+const storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+      cb(null, './public/upload');
+    },
+    filename: function (req, file, cb) {
+        cb(null, Date.now()+ path.extname(file.originalname))
+    }
+  });
+  const upload = multer({ storage: storage });
 
-exports.createCourse = async (req, res) => {
+
+exports.createCourse =[
+
+ upload.single('image'),
+ 
+ body("coursname").trim().isAlphanumeric().isLength({min:1}).withMessage("course contains letter only"),
+ body("courseprice").isNumeric().withMessage("price contains only number"),
+
+ async (req, res) => {
+  const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.status(400).json({ errors: errors.array() });
+        }
   try {
     const {coursename,coursedescription,courseprice  } = req.body;
     const image = req.file.path; 
@@ -11,7 +35,8 @@ exports.createCourse = async (req, res) => {
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
-};
+}
+];
 
 exports.getAllCourse = async (req, res) => {
   try {

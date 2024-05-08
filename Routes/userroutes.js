@@ -10,7 +10,6 @@ router.post('/signup',controller.signup);
 router.post("/login",controller.login);
 router.get("/alluser",controller.alluser);
 
-router.patch("/update/:id",controller.updateUser);
 router.delete("/delete/:id",controller.delete);
 
 
