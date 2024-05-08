@@ -17,8 +17,7 @@ app.use(cors())
 app.use(bodyParser.json())
 
 
-app.use('/',require('./Routes/userroutes'));
-app.use('/',require('./Routes/courseroutes'));
+app.use('/',require('./Routes/Myroutes'));
 
 
 
