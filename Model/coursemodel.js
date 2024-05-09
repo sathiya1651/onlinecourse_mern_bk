@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const mongooseAutoIncrement = require('mongoose-sequence')(mongoose);
 
 const Courseschema = new mongoose.Schema({
-    courseid: { type:Number, unique:true},
+    _id: { type:Number, unique:true},
     coursename: { type:String, required:true},
     coursedescription : {type:String, required:true},
     courseprice:{type:Number, required:true},
@@ -10,7 +10,7 @@ const Courseschema = new mongoose.Schema({
 
 }, { timestamps: true })
 
-Courseschema.plugin(mongooseAutoIncrement, { inc_field: 'courseid' });
+Courseschema.plugin(mongooseAutoIncrement, { inc_field: '_id' });
 
 const Course = mongoose.model('Course',Courseschema)
 
