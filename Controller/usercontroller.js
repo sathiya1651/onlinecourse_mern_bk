@@ -20,6 +20,11 @@ const errors = validationResult(req);
 
   try {
     const { name, username, password } = req.body;
+
+     const existinguser = await User.findOne({ username });
+            if (existinguser) {
+                return res.status(400).json({ message: 'Username already exists' });
+            }
     const user = new User({ name, username, password });
 
     await user.save();
@@ -107,27 +112,44 @@ const errors = validationResult(req);
       }
     }
 
+//     exports.updateUser = [
+
+    
+//     async(req,res)=>{
+//     try{
+//         const updateuser = await User.findOneAndUpdate({userid:req.params.id},req.body,{new:true});
+//         if(!updateuser){
+//             return res.status(404).json({message:"No user available"})
+//         }
+//         if(password){
+//           const  hashedPassword = await bcrypt.hash(password,10);
+//           user.password=hashedPassword;
+//         }
+
+        
+//         res.status(200).json({message:"successfully updated"})
+//     }catch(err){
+//         res.status(500).json({message:err.message})
+//     }
+// }
+// ]
+
     exports.updateUser = [
-
-    body("name").trim().isAlphanumeric().withMessage("Name only use letters"),
-    body("username").trim().isAlphanumeric().isLength({min:5}).withMessage("username use only 5 letters"),
-    body("password").isLength({ min: 4 }).isNumeric().withMessage("password only use min four number only "),
-
-    async(req,res)=>{
-    try{
-        const updateuser = await User.findOneAndUpdate({userid:req.params.id},req.body,{new:true});
-        if(!updateuser){
-            return res.status(404).json({message:"No user available"})
+    async (req, res) => {
+        try {
+            const { password } = req.body; 
+            const updateuser = await User.findOneAndUpdate({ userid: req.params.id }, req.body, { new: true });
+            if (!updateuser) {
+                return res.status(404).json({ message: "No user available" });
+            }
+            if (password) { 
+                const hashedPassword = await bcrypt.hash(password, 10);
+                updateuser.password = hashedPassword; 
+            }
+            await updateuser.save(); 
+            res.status(200).json({ message: "Successfully updated" });
+        } catch (err) {
+            res.status(500).json({ message: err.message });
         }
-
-        const token = jwt.sign(
-      { userId: user._id, username: user.username },
-      'your_secret_key', 
-      { expiresIn: '1hr' } 
-    );
-        res.status(200).json({message:"successfully updated",token})
-    }catch(err){
-        res.status(500).json({message:err.message})
     }
-}
-]
+];

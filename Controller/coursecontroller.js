@@ -1,5 +1,5 @@
 const Course = require('../Model/coursemodel')
-const { body, sanitizeBody, validationResult } = require("express-validator");
+// const { body, sanitizeBody, validationResult } = require("express-validator");
 
 
 
@@ -10,10 +10,10 @@ exports.createCourse =[
  // body("courseprice").isNumeric().withMessage("price contains only number"),
 
  async (req, res) => {
-  const errors = validationResult(req);
-        if (!errors.isEmpty()) {
-            return res.status(400).json({ errors: errors.array() });
-        }
+  // const errors = validationResult(req);
+  //       if (!errors.isEmpty()) {
+  //           return res.status(400).json({ errors: errors.array() });
+  //       }
   try {
     const {coursename,coursedescription,courseprice  } = req.body;
     const image = req.file.path; 
